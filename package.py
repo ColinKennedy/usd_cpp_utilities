@@ -17,6 +17,10 @@ requires = [
     "~python-2.7",
 ]
 
+tests = {
+    "unittest": "python -m unittest discover",
+}
+
 
 def commands():
     import os
@@ -26,4 +30,4 @@ def commands():
     env.CPP_INCLUDE_PATH.append(os.path.join(root, "include"))
     env.LD_LIBRARY_PATH.append(os.path.join(root, "lib"))
     env.LIBRARY_PATH.append(os.path.join(root, "lib"))
-    env.PYTHONPATH.append(os.path.join(root, "lib"))
+    env.PYTHONPATH.append(os.path.join(root, "lib", "python"))

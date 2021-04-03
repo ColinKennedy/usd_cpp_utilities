@@ -1,5 +1,5 @@
 --- Get the basic code to build
-- Build Python bindings
+--- Build Python bindings
 - Make rez tests
 - Add CUDA support, via ephemerals
 - Optimize it to be as fast as possible
