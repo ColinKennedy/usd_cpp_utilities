@@ -1,4 +1,4 @@
-- Get the basic code to build
+--- Get the basic code to build
 - Build Python bindings
 - Make rez tests
 - Add CUDA support, via ephemerals
