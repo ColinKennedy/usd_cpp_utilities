@@ -7,14 +7,16 @@ add_library(${PLUGIN_NAME}
 )
 
 target_include_directories(${PLUGIN_NAME}
-PUBLIC
-    ${PYTHON_INCLUDE_PATH}
-    ${PXR_INCLUDE_DIRS}
+    PRIVATE
+        ${PYTHON_INCLUDE_PATH}
+        ${PXR_INCLUDE_DIRS}
 )
 
 target_link_libraries(${PLUGIN_NAME}
     ${PXR_sdf_LIBRARY}
     ${PXR_usd_LIBRARY}
+    ${PXR_usdGeom_LIBRARY}
+    ${PXR_vt_LIBRARY}
     ${USD_BOOST_PYTHON}
 )
 
@@ -78,6 +80,7 @@ add_library(${PLUGIN_PYTHON_NAME}
         wrap_instancer_scale_check.cpp
 )
 
+# TODO : Can I just point ${PLUGIN_NAME} here, maybe?
 target_include_directories(${PLUGIN_PYTHON_NAME}
     PRIVATE
         ${PYTHON_INCLUDE_PATH}
