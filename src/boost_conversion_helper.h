@@ -1,9 +1,10 @@
 #pragma once
 
+// Reference: https://stackoverflow.com/a/41593748/3626104
+
 #include <boost/python.hpp>
 
 using namespace boost::python;
-
 
 template<typename T1, typename T2>
 struct PairToPythonConverter {
