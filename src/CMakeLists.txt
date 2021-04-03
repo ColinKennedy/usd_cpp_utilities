@@ -70,7 +70,7 @@ install(
 )
 
 # Add the Python bindings
-set(PLUGIN_PYTHON_NAME usd_utilities_python)
+set(PLUGIN_PYTHON_NAME instancer_scale_check)
 
 add_library(${PLUGIN_PYTHON_NAME}
     SHARED
