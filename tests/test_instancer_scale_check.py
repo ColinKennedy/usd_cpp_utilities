@@ -10,8 +10,69 @@ from pxr import Sdf, Usd, UsdGeom
 
 from usd_utilities import instancer_scale_check
 
+from . import common
+
+
 _SCALAR = 40
 _BASE_COUNT = 10000
+
+
+class Performance(unittest.TestCase):
+    def test_cpp_is_faster(self):
+        """Make sure the C++ implementation is faster than an equivalent Python function."""
+        stage = Usd.Stage.CreateInMemory()
+        bads = []
+
+        for instancer_index in range(30):
+            issues = [(10001, 0.00001), (301, 0.00001)]
+            indices = [index for index, _ in issues]
+            instancer = _make_point_instancer(
+                stage,
+                "/foo_{instancer_index}".format(instancer_index=instancer_index),
+                issues=issues,
+                suggested_count=200000,
+            )
+            bads.append((instancer, indices))
+
+        # with common.Timer() as python_timer:
+        #     python_results = _get_bad_values(stage.TraverseAll())
+
+        cpp_results = instancer_scale_check.get_bad_scale_values(stage.TraverseAll())
+        # with common.Timer() as cpp_timer:
+        #     cpp_results = instancer_scale_check.get_bad_scale_values(stage.TraverseAll())
+
+        # self.assertEqual(bads, cpp_results)
+        # self.assertEqual(python_results, cpp_results)
+        # self.assertLess(
+        #     cpp_timer.get_recorded_delta(),
+        #     python_timer.get_recorded_delta(),
+        # )
+
+
+def _get_bad_values(prims):
+    def _is_too_low(value):
+        # TODO : Make this an environment variable
+        return abs(value) < 0.0001
+
+    bads = []
+
+    for prim in prims:
+        instancer = UsdGeom.PointInstancer(prim)
+
+        if not instancer:
+            continue
+
+        attribute = instancer.GetPositionsAttr()
+        indices = []
+
+        for index, value in enumerate(attribute.Get()):
+            if _is_too_low(value[0]) or _is_too_low(value[1]) or _is_too_low(value[2]):
+                indices.append(index)
+
+        if indices:
+            bads.append((instancer.GetPrim(), indices))
+
+    return bads
 
 
 class Run(unittest.TestCase):
