@@ -4,6 +4,10 @@ add_library(${PLUGIN_NAME}
         foo.cpp
 )
 
+target_link_libraries(${PLUGIN_NAME}
+    ${PXR_sdf_LIBRARY}
+)
+
 install(
     TARGETS ${PLUGIN_NAME}
     DESTINATION ${REZ_BUILD_INSTALL_PATH}

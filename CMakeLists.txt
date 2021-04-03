@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.11)
 project(usd_cpp_utilities)
 
-find_library(USD_SDF sdfasfdasdf)
+find_package(pxr)
 
 set(PLUGIN_NAME usd_cpp_utilities_plugin)
 
