@@ -1,7 +1,13 @@
 # TODO : Remove this foo.cpp, later
 add_library(${PLUGIN_NAME}
     SHARED
-        foo.cpp
+        instancer_scale_check.cpp
+)
+
+target_include_directories(${PLUGIN_NAME}
+PUBLIC
+    ${PYTHON_INCLUDE_PATH}
+    ${PXR_INCLUDE_DIRS}
 )
 
 target_link_libraries(${PLUGIN_NAME}
