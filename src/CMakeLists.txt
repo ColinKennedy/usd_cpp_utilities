@@ -14,6 +14,7 @@ PUBLIC
 
 target_link_libraries(${PLUGIN_NAME}
     ${PXR_sdf_LIBRARY}
+    ${PXR_usd_LIBRARY}
     ${USD_BOOST_PYTHON}
 )
 
@@ -77,11 +78,6 @@ add_library(${PLUGIN_PYTHON_NAME}
         wrap_instancer_scale_check.cpp
 )
 
-# set_target_properties(${PLUGIN_PYTHON_NAME}
-#   PROPERTIES
-#   INSTALL_RPATH "$ORIGIN/../../../../../plugin/usd"
-# )
-
 target_include_directories(${PLUGIN_PYTHON_NAME}
     PRIVATE
         ${PYTHON_INCLUDE_PATH}
@@ -97,23 +93,31 @@ set_target_properties(${PLUGIN_PYTHON_NAME}
         PREFIX ""
 )
 
+set(PYTHON_PACKAGE_NAME usd_utilities)
+
 # XXX : These lines "find" the Python package
 target_compile_definitions(${PLUGIN_PYTHON_NAME}
     PRIVATE
         MFB_PACKAGE_NAME=${PLUGIN_NAME}
         MFB_ALT_PACKAGE_NAME=${PLUGIN_NAME}
-        MFB_PACKAGE_MODULE=usd_utilities.${MODULE_NAME}
+        MFB_PACKAGE_MODULE=${PYTHON_PACKAGE_NAME}.${MODULE_NAME}
 )
 
 target_link_libraries(${PLUGIN_PYTHON_NAME}
     ${PLUGIN_NAME}
 )
 
-set(PYTHON_PACKAGE_RELATIVE_PATH lib/python)
-set(INSTALL_PYTHONPACKAGE_DIR  ${PYTHON_PACKAGE_RELATIVE_PATH})
-set(INSTALL_WRAPPER_DIR ${INSTALL_PYTHONPACKAGE_DIR}/${MODULE_NAME})
+set(PYTHON_PACKAGE_RELATIVE_PATH lib/python/${PYTHON_PACKAGE_NAME})
+set(INSTALL_PYTHON_PACKAGE ${PYTHON_PACKAGE_RELATIVE_PATH})
+
+
+install(
+    FILES __packageinit__.py
+    DESTINATION ${INSTALL_PYTHON_PACKAGE}
+    RENAME __init__.py
+)
 
 install(
     TARGETS ${PLUGIN_PYTHON_NAME}
-    DESTINATION ${INSTALL_WRAPPER_DIR}
+    DESTINATION ${INSTALL_PYTHON_PACKAGE}/${MODULE_NAME}
 )
