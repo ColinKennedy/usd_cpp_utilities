@@ -11,6 +11,7 @@ find_library(USD_BOOST_PYTHON
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_compile_options(-Wno-deprecated)  # This is just to avoid some spammy warnings
 
 set(PLUGIN_NAME usd_cpp_utilities_plugin)
 
