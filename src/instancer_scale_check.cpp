@@ -3,8 +3,8 @@
 
 namespace usd_utilities
 {
-    void get_bad_scale_values()
+    int get_bad_scale_values()
     {
-        auto stage = pxr::UsdStage::Open("/tmp/place.usdc");
+        return 8;
     }
 }
