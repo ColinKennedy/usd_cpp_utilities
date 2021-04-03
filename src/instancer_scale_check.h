@@ -1,13 +1,16 @@
 #pragma once
 
+#include <utility>
 #include <vector>
 
 #include <boost/python.hpp>
+#include <pxr/usd/usd/prim.h>
 #include <pxr/usd/usd/primRange.h>
 
 
-// using _InstancerIndices = std::vector<std::pair<int, int>>;
-using _InstancerIndices = std::pair<int, int>;
+using _Indices = std::vector<int>;
+using _InstancerPair = std::pair<pxr::UsdPrim, _Indices>;
+using _InstancerPairs = std::vector<_InstancerPair>;
 
 
 // TODO : Move this code elsewhere, later
@@ -28,5 +31,5 @@ struct VecToList
 
 namespace usd_utilities
 {
-    _InstancerIndices get_bad_scale_values(pxr::UsdPrimRange range);
+    _InstancerPairs get_bad_scale_values(pxr::UsdPrimRange range);
 }

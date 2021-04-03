@@ -11,9 +11,6 @@
 #include "instancer_scale_check.h"
 
 
-using _Indices = std::vector<int>;
-
-
 inline bool _is_too_low(float value)
 {
     return std::abs(value) < 0.0001;
@@ -36,13 +33,11 @@ std::vector<pxr::UsdGeomPointInstancer> _get_instancers(pxr::UsdPrimRange range)
 
 namespace usd_utilities
 {
-    _InstancerIndices get_bad_scale_values(pxr::UsdPrimRange range)
+    _InstancerPairs get_bad_scale_values(pxr::UsdPrimRange range)
     {
-        _InstancerIndices output;
+        _InstancerPairs output;
 
-        auto instancers = _get_instancers(range);
-
-        for (auto const &instancer : instancers)
+        for (auto const &instancer : _get_instancers(range))
         {
             _Indices indices;
 
@@ -66,17 +61,10 @@ namespace usd_utilities
 
             if (!indices.empty())
             {
-                // output.push_back(std::make_pair(instancer.GetPrim(), indices));
-                auto pair = std::make_pair(1, 13);
-
-                return pair;
-                // output.emplace_back(1, 12);
+                output.emplace_back(instancer.GetPrim(), indices);
             }
         }
 
-        auto pair = std::make_pair(1, 14);
-
-        return pair;
-        // return output;
+        return output;
     }
 }
