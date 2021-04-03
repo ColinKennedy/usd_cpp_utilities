@@ -12,7 +12,10 @@ authors = ["ColinKennedy"]
 private_build_requires = ["cmake-3"]
 
 # TODO : Can this be private / build requires?
-requires = ["USD-20.02.4+<21"]
+requires = [
+    "USD-20.02.4+<21",
+    "~python-2.7",
+]
 
 
 def commands():
