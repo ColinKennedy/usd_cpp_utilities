@@ -8,3 +8,5 @@
 
 - Make sure that I can include it into another Rez package
     - Get .h included as a separate folder (so it can be importable)
+
+- Add environment variable for the maximum, smallest value

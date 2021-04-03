@@ -1,10 +1,17 @@
 #include <iostream>
+#include <utility>
 #include <vector>
 
 #include <pxr/base/vt/types.h>
-#include <pxr/usd/usdGeom/pointInstancer.h>
+#include <pxr/usd/usd/prim.h>
 #include <pxr/usd/usd/primRange.h>
 #include <pxr/usd/usd/stage.h>
+#include <pxr/usd/usdGeom/pointInstancer.h>
+
+#include "instancer_scale_check.h"
+
+
+using _Indices = std::vector<int>;
 
 
 inline bool _is_too_low(float value)
@@ -29,15 +36,16 @@ std::vector<pxr::UsdGeomPointInstancer> _get_instancers(pxr::UsdPrimRange range)
 
 namespace usd_utilities
 {
-    std::vector<int> get_bad_scale_values(pxr::UsdPrimRange range)
+    _InstancerIndices get_bad_scale_values(pxr::UsdPrimRange range)
     {
-        std::vector<int> output;
+        _InstancerIndices output;
 
-        auto stage = pxr::UsdStage::Open("/tmp/place.usdc");
         auto instancers = _get_instancers(range);
 
         for (auto const &instancer : instancers)
         {
+            _Indices indices;
+
             auto attribute = instancer.GetPositionsAttr();
             pxr::VtVec3fArray values;
             attribute.Get(&values);
@@ -52,11 +60,23 @@ namespace usd_utilities
                     || _is_too_low(value[2])
                 )
                 {
-                    output.push_back(index);
+                    indices.push_back(index);
                 }
+            }
+
+            if (!indices.empty())
+            {
+                // output.push_back(std::make_pair(instancer.GetPrim(), indices));
+                auto pair = std::make_pair(1, 13);
+
+                return pair;
+                // output.emplace_back(1, 12);
             }
         }
 
-        return output;
+        auto pair = std::make_pair(1, 14);
+
+        return pair;
+        // return output;
     }
 }

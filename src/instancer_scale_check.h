@@ -6,6 +6,10 @@
 #include <pxr/usd/usd/primRange.h>
 
 
+// using _InstancerIndices = std::vector<std::pair<int, int>>;
+using _InstancerIndices = std::pair<int, int>;
+
+
 // TODO : Move this code elsewhere, later
 template<class T>
 struct VecToList
@@ -24,5 +28,5 @@ struct VecToList
 
 namespace usd_utilities
 {
-    std::vector<int> get_bad_scale_values(pxr::UsdPrimRange range);
+    _InstancerIndices get_bad_scale_values(pxr::UsdPrimRange range);
 }
