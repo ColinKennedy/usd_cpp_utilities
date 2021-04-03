@@ -31,31 +31,31 @@ namespace usd_utilities
 {
     std::vector<int> get_bad_scale_values()
     {
-        std::vector<int> output {8};
+        std::vector<int> output;
 
-        // auto stage = pxr::UsdStage::Open("/tmp/place.usdc");
-        // auto instancers = _get_instancers(stage->TraverseAll());
+        auto stage = pxr::UsdStage::Open("/tmp/place.usdc");
+        auto instancers = _get_instancers(stage->TraverseAll());
 
-        // for (auto const &instancer : instancers)
-        // {
-        //     auto attribute = instancer.GetPositionsAttr();
-        //     pxr::VtVec3fArray values;
-        //     attribute.Get(&values);
-        //
-        //     for (int index = 0; index < values.size(); ++index)
-        //     {
-        //         auto value = values[index];
-        //
-        //         if (
-        //             _is_too_low(value[0])
-        //             || _is_too_low(value[1])
-        //             || _is_too_low(value[2])
-        //         )
-        //         {
-        //             output.push_back(index);
-        //         }
-        //     }
-        // }
+        for (auto const &instancer : instancers)
+        {
+            auto attribute = instancer.GetPositionsAttr();
+            pxr::VtVec3fArray values;
+            attribute.Get(&values);
+
+            for (int index = 0; index < values.size(); ++index)
+            {
+                auto value = values[index];
+
+                if (
+                    _is_too_low(value[0])
+                    || _is_too_low(value[1])
+                    || _is_too_low(value[2])
+                )
+                {
+                    output.push_back(index);
+                }
+            }
+        }
 
         return output;
     }
