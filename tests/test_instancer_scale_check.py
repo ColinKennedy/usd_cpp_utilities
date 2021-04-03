@@ -3,6 +3,7 @@
 
 """Make sure :mod:`usd_utilities.instancer_scale_check` works."""
 
+import os
 import random
 import unittest
 
@@ -13,6 +14,7 @@ from usd_utilities import instancer_scale_check
 from . import common
 
 
+_CURRENT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 _SCALAR = 40
 _BASE_COUNT = 10000
 
@@ -20,33 +22,34 @@ _BASE_COUNT = 10000
 class Performance(unittest.TestCase):
     def test_cpp_is_faster(self):
         """Make sure the C++ implementation is faster than an equivalent Python function."""
-        stage = Usd.Stage.CreateInMemory()
-        bads = []
+        data_path = os.path.join(_CURRENT_DIRECTORY, "big_instancer_data.usdc")
+        # XXX : The stage below was generated using this code. Uncomment to re-generate it
+        # for instancer_index in range(30):
+        #     issues = [(10001, 0.00001), (301, 0.00001)]
+        #     _make_point_instancer(
+        #         stage,
+        #         "/foo_{instancer_index}".format(instancer_index=instancer_index),
+        #         issues=issues,
+        #         suggested_count=200000,
+        #     )
+        #
+        # stage.GetRootLayer().Export(data_path)
+        #
+        stage = Usd.Stage.Open(data_path)
 
-        for instancer_index in range(30):
-            issues = [(10001, 0.00001), (301, 0.00001)]
-            indices = [index for index, _ in issues]
-            instancer = _make_point_instancer(
-                stage,
-                "/foo_{instancer_index}".format(instancer_index=instancer_index),
-                issues=issues,
-                suggested_count=200000,
-            )
-            bads.append((instancer, indices))
+        with common.Timer() as python_timer:
+            python_results = _get_bad_values(stage.TraverseAll())
 
-        # with common.Timer() as python_timer:
-        #     python_results = _get_bad_values(stage.TraverseAll())
+        with common.Timer() as cpp_timer:
+            cpp_results = instancer_scale_check.get_bad_scale_values(stage.TraverseAll())
 
-        cpp_results = instancer_scale_check.get_bad_scale_values(stage.TraverseAll())
-        # with common.Timer() as cpp_timer:
-        #     cpp_results = instancer_scale_check.get_bad_scale_values(stage.TraverseAll())
+        self.assertEqual(python_results, cpp_results)
 
-        # self.assertEqual(bads, cpp_results)
-        # self.assertEqual(python_results, cpp_results)
-        # self.assertLess(
-        #     cpp_timer.get_recorded_delta(),
-        #     python_timer.get_recorded_delta(),
-        # )
+        # The C++ implementation should be at least 250x faster than Python's
+        self.assertLess(
+            cpp_timer.get_recorded_delta() * 250,
+            python_timer.get_recorded_delta(),
+        )
 
 
 def _get_bad_values(prims):
