@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""Make sure :mod:`usd_utilities.instancer_scale_check` works."""
+
 import random
 import unittest
 
@@ -9,18 +11,19 @@ from pxr import Sdf, Usd, UsdGeom
 from usd_utilities import instancer_scale_check
 
 _SCALAR = 40
-_BASIC_INSTANCER_COUNT = 1000
+_BASE_COUNT = 10000
 
 
 class Run(unittest.TestCase):
-    def test_complex(self):
-        raise ValueError()
+    """Make sure :func:`usd_utilities.instancer_scale_check.get_bad_scale_values` works."""
 
     def test_empty(self):
+        """Make sure an empty USD stage / range can be processed."""
         stage = Usd.Stage.CreateInMemory()
         self.assertFalse(instancer_scale_check.get_bad_scale_values(stage.TraverseAll()))
 
     def test_mixed(self):
+        """Report only the bad values in a mixture of explicit good / bad values."""
         stage = Usd.Stage.CreateInMemory()
         bad_values = [
             (0, 0.00000000004001),
@@ -39,6 +42,7 @@ class Run(unittest.TestCase):
         )
 
     def test_multiple(self):
+        """Test multiple PointInstancers at once."""
         stage = Usd.Stage.CreateInMemory()
         issues_1 = [(5, 0.0000000000001)]
         indices_1 = [index for index, _ in issues_1]
@@ -57,9 +61,19 @@ class Run(unittest.TestCase):
         )
 
     def test_negative(self):
-        raise ValueError()
+        """Make sure negative, small values are caught."""
+        stage = Usd.Stage.CreateInMemory()
+        issues = [(5, -0.0000000000001)]
+        indices = [index for index, _ in issues]
+        instancer = _make_point_instancer(stage, "/foo", issues=issues)
+
+        self.assertEqual(
+            [(instancer, indices)],
+            instancer_scale_check.get_bad_scale_values(stage.TraverseAll()),
+        )
 
     def test_single(self):
+        """Catch a single bad, small value."""
         stage = Usd.Stage.CreateInMemory()
         issues = [(5, 0.0000000000001)]
         indices = [index for index, _ in issues]
@@ -71,10 +85,20 @@ class Run(unittest.TestCase):
         )
 
     def test_zero(self):
-        raise ValueError()
+        """Make sure 0 values are caught."""
+        stage = Usd.Stage.CreateInMemory()
+        issues = [(5, 0)]
+        indices = [index for index, _ in issues]
+        instancer = _make_point_instancer(stage, "/foo", issues=issues)
+
+        self.assertEqual(
+            [(instancer, indices)],
+            instancer_scale_check.get_bad_scale_values(stage.TraverseAll()),
+        )
 
 
 def _get_position():
+    """tuple[float, float, float]: Create a valid, 3-tuple for testing."""
     return (
         (random.random() * _SCALAR) + 0.3,
         (random.random() * _SCALAR) + 0.3,
@@ -82,7 +106,18 @@ def _get_position():
     )
 
 
-def _make_bad_value(value=0.00000001):
+def _make_value(value):
+    """Make a 3-tuple with a value at as one of its components.
+
+    The chosen component (0th, 1st, or 2nd) is chosen randomly.
+
+    Args:
+        value (float): A value to add to one of the components.
+
+    Returns:
+        tuple[float, float, float]: The generated 3-tuple.
+
+    """
     indices = list(range(3))
     bad_index = random.choice(indices)
 
@@ -92,12 +127,26 @@ def _make_bad_value(value=0.00000001):
     return values
 
 
-def _make_point_instancer(
-    stage,
-    path,
-    issues=0,
-    suggested_count=_BASIC_INSTANCER_COUNT,
-):
+def _make_point_instancer(stage, path, issues=tuple(), suggested_count=_BASE_COUNT):
+    """Create a PointInstancer for testing.
+
+    Args:
+        stage (:class:`pxr.Usd.Stage`):
+            A USD object to add this new PointInstancer to.
+        path (str):
+            The absolute USD namespace where the new PointInstancer will go.
+        issues (list[container[int, int or float]], optional):
+            Each index and value which set directly onto the newly
+            created PointInstancer's scale attribute. Use this parameter
+            for testing good and bad values.
+        suggested_count (int, optional):
+            The number of instances which will be created, at
+            minimum. Default: 10000.
+
+    Returns:
+        :class:`pxr.Usd.Prim`: The generated PointInstancer Prim.
+
+    """
     layer = stage.GetRootLayer()
     count = max(max([index for index, _ in issues]) + 1, suggested_count)
 
@@ -119,7 +168,7 @@ def _make_point_instancer(
         values = [_get_position() for _ in range(count)]
 
         for index, value in issues:
-            values[index] = _make_bad_value(value=value)
+            values[index] = _make_value(value)
 
         positions.default = values
 
