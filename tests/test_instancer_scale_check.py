@@ -24,6 +24,8 @@ class Performance(unittest.TestCase):
         """Make sure the C++ implementation is faster than an equivalent Python function."""
         data_path = os.path.join(_CURRENT_DIRECTORY, "big_instancer_data.usdc")
         # XXX : The stage below was generated using this code. Uncomment to re-generate it
+        # stage = Usd.Stage.CreateInMemory()
+        #
         # for instancer_index in range(30):
         #     issues = [(10001, 0.00001), (301, 0.00001)]
         #     _make_point_instancer(
@@ -34,7 +36,7 @@ class Performance(unittest.TestCase):
         #     )
         #
         # stage.GetRootLayer().Export(data_path)
-        #
+
         stage = Usd.Stage.Open(data_path)
 
         with common.Timer() as python_timer:
