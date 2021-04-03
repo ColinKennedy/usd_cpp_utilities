@@ -19,5 +19,8 @@ def commands():
     import os
 
     # TODO : Check that these values are required
-    env.LIBRARY_PATH.append(os.path.join(root, "lib"))
+    env.CMAKE_MODULE_PATH.append(os.path.join(root, "cmake"))
+    env.CPP_INCLUDE_PATH.append(os.path.join(root, "include"))
     env.LD_LIBRARY_PATH.append(os.path.join(root, "lib"))
+    env.LIBRARY_PATH.append(os.path.join(root, "lib"))
+    env.PYTHONPATH.append(os.path.join(root, "lib"))
