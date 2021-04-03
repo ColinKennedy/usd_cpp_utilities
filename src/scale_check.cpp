@@ -1,4 +1,3 @@
-#include <iostream>
 #include <utility>
 #include <vector>
 
@@ -9,27 +8,16 @@
 #include <pxr/usd/usdGeom/pointInstancer.h>
 
 #include "scale_check.h"
+#include "common.h"
 
+
+static auto _UPPER_BOUND = _get_upper_bound();
 
 inline bool _is_too_low(float value)
 {
-    return std::abs(value) < 0.0001;
+    return std::abs(value) < _UPPER_BOUND;
 }
 
-std::vector<pxr::UsdGeomPointInstancer> _get_instancers(pxr::UsdPrimRange range)
-{
-    std::vector<pxr::UsdGeomPointInstancer> output;
-
-    for (auto const &prim : range)
-    {
-        if (prim.IsA<pxr::UsdGeomPointInstancer>())
-        {
-            output.push_back(pxr::UsdGeomPointInstancer(prim));
-        }
-    }
-
-    return output;
-}
 
 namespace usd_utilities
 {
