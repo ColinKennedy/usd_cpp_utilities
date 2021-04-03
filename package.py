@@ -17,6 +17,7 @@ requires = [
     "~python-2.7",
 ]
 
+# TODO : Add more tests
 tests = {
     "unittest": "python -m unittest discover",
 }

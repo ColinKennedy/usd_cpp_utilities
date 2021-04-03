@@ -3,6 +3,8 @@
 #include <vector>
 
 #include <boost/python.hpp>
+#include <pxr/usd/usd/primRange.h>
+
 
 // TODO : Move this code elsewhere, later
 template<class T>
@@ -22,5 +24,5 @@ struct VecToList
 
 namespace usd_utilities
 {
-    std::vector<int> get_bad_scale_values();
+    std::vector<int> get_bad_scale_values(pxr::UsdPrimRange range);
 }

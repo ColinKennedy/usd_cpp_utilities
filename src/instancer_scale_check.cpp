@@ -29,12 +29,12 @@ std::vector<pxr::UsdGeomPointInstancer> _get_instancers(pxr::UsdPrimRange range)
 
 namespace usd_utilities
 {
-    std::vector<int> get_bad_scale_values()
+    std::vector<int> get_bad_scale_values(pxr::UsdPrimRange range)
     {
         std::vector<int> output;
 
         auto stage = pxr::UsdStage::Open("/tmp/place.usdc");
-        auto instancers = _get_instancers(stage->TraverseAll());
+        auto instancers = _get_instancers(range);
 
         for (auto const &instancer : instancers)
         {
