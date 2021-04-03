@@ -1,6 +1,4 @@
-- Rename the module to just "scale_check"
 - Make sure there's a GPU performance test
-- Make the output values correct and easy to understand
 - Add CUDA support, via ephemerals
 - Optimize it to be as fast as possible
 

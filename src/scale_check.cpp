@@ -8,7 +8,7 @@
 #include <pxr/usd/usd/stage.h>
 #include <pxr/usd/usdGeom/pointInstancer.h>
 
-#include "instancer_scale_check.h"
+#include "scale_check.h"
 
 
 inline bool _is_too_low(float value)

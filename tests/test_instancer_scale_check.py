@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Make sure :mod:`usd_utilities.instancer_scale_check` works."""
+"""Make sure :mod:`usd_utilities.scale_check` works."""
 
 import os
 import random
@@ -9,7 +9,7 @@ import unittest
 
 from pxr import Sdf, Usd, UsdGeom
 
-from usd_utilities import instancer_scale_check
+from usd_utilities import scale_check
 
 from . import common
 
@@ -43,7 +43,7 @@ class Performance(unittest.TestCase):
             python_results = _get_bad_values(stage.TraverseAll())
 
         with common.Timer() as cpp_timer:
-            cpp_results = instancer_scale_check.get_bad_scale_values(stage.TraverseAll())
+            cpp_results = scale_check.get_bad_scale_values(stage.TraverseAll())
 
         self.assertEqual(python_results, cpp_results)
 
@@ -81,12 +81,12 @@ def _get_bad_values(prims):
 
 
 class Run(unittest.TestCase):
-    """Make sure :func:`usd_utilities.instancer_scale_check.get_bad_scale_values` works."""
+    """Make sure :func:`usd_utilities.scale_check.get_bad_scale_values` works."""
 
     def test_empty(self):
         """Make sure an empty USD stage / range can be processed."""
         stage = Usd.Stage.CreateInMemory()
-        self.assertFalse(instancer_scale_check.get_bad_scale_values(stage.TraverseAll()))
+        self.assertFalse(scale_check.get_bad_scale_values(stage.TraverseAll()))
 
     def test_mixed(self):
         """Report only the bad values in a mixture of explicit good / bad values."""
@@ -104,7 +104,7 @@ class Run(unittest.TestCase):
 
         self.assertEqual(
             [(instancer, bad_indices)],
-            instancer_scale_check.get_bad_scale_values(stage.TraverseAll()),
+            scale_check.get_bad_scale_values(stage.TraverseAll()),
         )
 
     def test_multiple(self):
@@ -123,7 +123,7 @@ class Run(unittest.TestCase):
 
         self.assertEqual(
             [(instancer_1, indices_1), (instancer_2, indices_2)],
-            instancer_scale_check.get_bad_scale_values(stage.TraverseAll()),
+            scale_check.get_bad_scale_values(stage.TraverseAll()),
         )
 
     def test_negative(self):
@@ -135,7 +135,7 @@ class Run(unittest.TestCase):
 
         self.assertEqual(
             [(instancer, indices)],
-            instancer_scale_check.get_bad_scale_values(stage.TraverseAll()),
+            scale_check.get_bad_scale_values(stage.TraverseAll()),
         )
 
     def test_single(self):
@@ -147,7 +147,7 @@ class Run(unittest.TestCase):
 
         self.assertEqual(
             [(instancer, indices)],
-            instancer_scale_check.get_bad_scale_values(stage.TraverseAll()),
+            scale_check.get_bad_scale_values(stage.TraverseAll()),
         )
 
     def test_zero(self):
@@ -159,7 +159,7 @@ class Run(unittest.TestCase):
 
         self.assertEqual(
             [(instancer, indices)],
-            instancer_scale_check.get_bad_scale_values(stage.TraverseAll()),
+            scale_check.get_bad_scale_values(stage.TraverseAll()),
         )
 
 

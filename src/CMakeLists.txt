@@ -3,7 +3,7 @@ set(PLUGIN_NAME usd_cpp_utilities_plugin)
 
 add_library(${PLUGIN_NAME}
     SHARED
-        instancer_scale_check.cpp
+        scale_check.cpp
 )
 
 target_include_directories(${PLUGIN_NAME}
@@ -61,7 +61,7 @@ install(FILES
 # Copy the header files so external packages can include + use them
 install(
     FILES
-        instancer_scale_check.h
+        scale_check.h
     DESTINATION
         include
 )
@@ -73,11 +73,11 @@ install(
 )
 
 # Add the Python bindings
-set(PLUGIN_PYTHON_NAME instancer_scale_check)
+set(PLUGIN_PYTHON_NAME scale_check)
 
 add_library(${PLUGIN_PYTHON_NAME}
     SHARED
-        wrap_instancer_scale_check.cpp
+        wrap_scale_check.cpp
 )
 
 # TODO : Can I just point ${PLUGIN_NAME} here, maybe?
