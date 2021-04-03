@@ -41,7 +41,7 @@ namespace usd_utilities
         {
             _Indices indices;
 
-            auto attribute = instancer.GetPositionsAttr();
+            auto attribute = instancer.GetScalesAttr();
             pxr::VtVec3fArray values;
             attribute.Get(&values);
 

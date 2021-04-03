@@ -65,7 +65,7 @@ def _get_bad_values(prims):
         if not instancer:
             continue
 
-        attribute = instancer.GetPositionsAttr()
+        attribute = instancer.GetScalesAttr()
         indices = []
 
         for index, value in enumerate(attribute.Get()):
@@ -161,7 +161,7 @@ class Run(unittest.TestCase):
         )
 
 
-def _get_position():
+def _get_scale():
     """tuple[float, float, float]: Create a valid, 3-tuple for testing."""
     return (
         (random.random() * _SCALAR) + 0.3,
@@ -228,12 +228,12 @@ def _make_point_instancer(stage, path, issues=tuple(), suggested_count=_BASE_COU
         prototypes = Sdf.RelationshipSpec(child, "prototypes", custom=False)
         prototypes.targetPathList.explicitItems.append(mesh.path)
 
-        positions = Sdf.AttributeSpec(child, "positions", Sdf.ValueTypeNames.Vector3fArray)
-        values = [_get_position() for _ in range(count)]
+        scales = Sdf.AttributeSpec(child, "scales", Sdf.ValueTypeNames.Vector3fArray)
+        values = [_get_scale() for _ in range(count)]
 
         for index, value in issues:
             values[index] = _make_value(value)
 
-        positions.default = values
+        scales.default = values
 
     return stage.GetPrimAtPath(path)
