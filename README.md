@@ -5,7 +5,6 @@ value does distance to zero is on-or-less than this value is considered
 bad. (Small, negative values are also considered bad).
 
 
-- Add documentation
 - Make sure there's a GPU performance test
 - Add CUDA support, via ephemerals
 - Optimize it to be as fast as possible
