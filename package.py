@@ -16,6 +16,11 @@ requires = ["USD-20.02.4+<21", "~python-2.7"]
 
 # TODO : Add more tests
 tests = {
+    "build_documentation": {
+        "command": "doxygen",
+        # "requires": ["doxygen"],  # TODO : Add a Rez package for this, later
+        "run_on": "explicit",
+    },
     "unittest": "python -m unittest discover",
 }
 

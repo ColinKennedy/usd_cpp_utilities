@@ -1,6 +1,4 @@
 # Add all files and link them to USD / boost
-set(PLUGIN_NAME usd_cpp_utilities_plugin)
-
 add_library(${PLUGIN_NAME}
     SHARED
         common.cpp
