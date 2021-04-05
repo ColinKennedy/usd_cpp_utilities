@@ -171,6 +171,7 @@ class Run(unittest.TestCase):
         )
 
 
+# TODO : Make sure custom iterable objects work, too.
 class _Iterator(object):
     """A basic iterable Python class, for testing purposes."""
 
