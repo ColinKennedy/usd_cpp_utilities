@@ -1,6 +1,6 @@
 ## usd_cpp_utilities
 
-A simple Rez package with miscellaneous, optimized functions for working
+A WIP simple Rez package with miscellaneous, optimized functions for working
 with USD.
 
 The package is relatively simple at the moment and will only add new
@@ -34,3 +34,4 @@ https://stackoverflow.com/questions/3761391/boostpython-python-list-to-stdvector
 - Add C++ linters
 - Make a 1.0.0 release
 - Add Python documentation to the Boost.Python wrapped code
+- Remove all WIP / TODO tags, later
