@@ -1,0 +1,3 @@
+[pylint]
+extension-pkg-whitelist=usd_utilities
+generated-members=Ar.*,Sdf.*,Tf.*,Usd.*

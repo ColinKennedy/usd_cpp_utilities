@@ -33,3 +33,4 @@ https://stackoverflow.com/questions/3761391/boostpython-python-list-to-stdvector
 - Do the miscellaneous TODO notes
 - Add C++ linters
 - Make a 1.0.0 release
+- Add Python documentation to the Boost.Python wrapped code

@@ -24,7 +24,7 @@ class Performance(unittest.TestCase):
     def test_cpp_is_faster(self):
         """Make sure the C++ implementation is faster than an equivalent Python function."""
         data_path = os.path.join(_CURRENT_DIRECTORY, "big_instancer_data.usdc")
-        # XXX : The stage below was generated using this code. Uncomment to re-generate it
+        # Note : The stage below was generated using this code. Uncomment to re-generate it
         # stage = Usd.Stage.CreateInMemory()
         #
         # for instancer_index in range(30):
