@@ -127,6 +127,20 @@ class Run(unittest.TestCase):
             scale_check.get_bad_scale_values(stage.TraverseAll()),
         )
 
+    def test_types_built_in(self):
+        """Allow built-in Python containers."""
+        stage = Usd.Stage.CreateInMemory()
+        issues = [(5, 0.0000000000001)]
+        indices = [index for index, _ in issues]
+        instancer = _make_point_instancer(stage, "/foo", issues=issues)
+
+        for type_ in [frozenset, list, set, tuple]:
+            self.assertEqual(
+                [(instancer, indices)],
+                scale_check.get_bad_scale_values(type_(stage.TraverseAll())),
+                msg='Type "{type_}" failed to run.'.format(type_=type_),
+            )
+
     def test_zero(self):
         """Make sure 0 values are caught."""
         stage = Usd.Stage.CreateInMemory()
