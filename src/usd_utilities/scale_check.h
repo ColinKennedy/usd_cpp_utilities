@@ -22,6 +22,10 @@ using _InstancerPair = std::pair<pxr::UsdPrim, _Indices>;
 using _InstancerPairs = std::vector<_InstancerPair>;
 
 
+/**
+ * \namespace usd_utilities
+ * \brief All public objects in this Rez package which external packages may use.
+ */
 namespace usd_utilities
 {
     /** \brief Find every PointInstancer Prim with small scale elements.

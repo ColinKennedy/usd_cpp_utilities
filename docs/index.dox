@@ -1,4 +1,8 @@
 /**
 \mainpage usd_cpp_utilities - A series of bespoke, optimized C++ functions for USD.
 
+Currently, this package only contains one interesting C++ function, usd_utilities::get_bad_scale_values().
+
+See \ref usd_utilities for details.
+
 */
