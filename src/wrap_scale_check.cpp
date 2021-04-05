@@ -10,7 +10,6 @@ using namespace boost::python;
 
 BOOST_PYTHON_MODULE(scale_check)
 {
-    // TODO: Check if this is still needed
     to_python_converter< std::vector<_InstancerPair>, VecToList<_InstancerPair> >();
     py_pair<pxr::UsdPrim, _Indices>();
 
