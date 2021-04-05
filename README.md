@@ -35,3 +35,9 @@ https://stackoverflow.com/questions/3761391/boostpython-python-list-to-stdvector
 - Make a 1.0.0 release
 - Add Python documentation to the Boost.Python wrapped code
 - Remove all WIP / TODO tags, later
+
+To test performance
+
+for i in {1..10}; do time python tests/performance_test.py; done
+
+- Try this out https://stackoverflow.com/a/33422179/3626104
