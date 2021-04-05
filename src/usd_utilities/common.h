@@ -1,5 +1,11 @@
 #pragma once
 
+/** \file common.h
+ *
+ * Any private or public functions which makes writing C++ code easier.
+ *
+ */
+
 #include <vector>
 
 #include <pxr/usd/usd/primRange.h>

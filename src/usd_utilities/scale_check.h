@@ -1,5 +1,15 @@
 #pragma once
 
+/** \file scale_check.h
+ *
+ * The main module for finding bad scale values in a USD scene.  In this
+ * case, "bad" means "A scale value which is on-or-approaching zero".
+ * By default, this value is 0.0001. But you can set it to a lower
+ * or higher value, using the "USD_CPP_UTILITIES_SCALE_UPPER_BOUND"
+ * environment variable.
+ *
+ */
+
 #include <utility>
 #include <vector>
 
