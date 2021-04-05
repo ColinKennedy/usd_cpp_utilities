@@ -43,7 +43,8 @@ tests = {
         "command": "pydocstyle --ignore=D213,D202,D203,D406,D407 tests/*",
         "requires": ["pydocstyle-3+<4"],
     },
-    "pylint": {"command": "pylint tests", "requires": ["pylint-1.9+<2"]},
+    # TODO : Remove fixme, later
+    "pylint": {"command": "pylint --disable=fixme tests", "requires": ["pylint-1.9+<2"]},
     "unittest": "python -m unittest discover",
 }
 
