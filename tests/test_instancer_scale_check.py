@@ -8,11 +8,9 @@ import random
 import unittest
 
 from pxr import Sdf, Usd, UsdGeom
-
 from usd_utilities import scale_check
 
 from . import common
-
 
 _BASE_COUNT = 10000
 _BOUND_VALUE = float(os.getenv("USD_CPP_UTILITIES_SCALE_UPPER_BOUND", 0.0001))
