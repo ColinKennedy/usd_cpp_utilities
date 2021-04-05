@@ -36,6 +36,8 @@ https://stackoverflow.com/questions/3761391/boostpython-python-list-to-stdvector
 - Add Python documentation to the Boost.Python wrapped code
 - Remove all WIP / TODO tags, later
 
+- Check if removing std::abs is faster
+
 To test performance
 
 for i in {1..10}; do time python tests/performance_test.py; done
