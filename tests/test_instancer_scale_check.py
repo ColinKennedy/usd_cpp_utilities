@@ -141,6 +141,23 @@ class Run(unittest.TestCase):
                 msg='Type "{type_}" failed to run.'.format(type_=type_),
             )
 
+    def test_types_custom(self):
+        """Allow a Python class, as long as it is iterable."""
+        stage = Usd.Stage.CreateInMemory()
+        issues = [(5, 0.0000000000001)]
+        indices = [index for index, _ in issues]
+        instancer = _make_point_instancer(stage, "/foo", issues=issues)
+
+        self.assertEqual(
+            [(instancer, indices)],
+            scale_check.get_bad_scale_values(_Iterator(stage.TraverseAll())),
+        )
+
+        self.assertEqual(
+            [(instancer, indices)],
+            scale_check.get_bad_scale_values(_yield_elements(stage.TraverseAll())),
+        )
+
     def test_zero(self):
         """Make sure 0 values are caught."""
         stage = Usd.Stage.CreateInMemory()
@@ -152,6 +169,47 @@ class Run(unittest.TestCase):
             [(instancer, indices)],
             scale_check.get_bad_scale_values(stage.TraverseAll()),
         )
+
+
+class _Iterator(object):
+    """A basic iterable Python class, for testing purposes."""
+
+    def __init__(self, values):
+        """Store some iterable container for querying, later.
+
+        Args:
+            values (container[:class:`pxr.Usd.Prims`]): The Prims to iterate over.
+
+        """
+        super(_Iterator, self).__init__()
+
+        self._index = 0
+        self._values = values
+
+    def __iter__(self):
+        """:class:`_Iterator`: The current instance."""
+        return self
+
+    def __next__(self):
+        """Get the Prim in the next index.
+
+        Raises:
+            StopIteration: If this instance runs out of objects to get.
+
+        Returns:
+            :class:`pxr.Usd.Prim`: The Prim.
+
+        """
+        try:
+            result = self._values[self._index]
+        except IndexError:
+            raise StopIteration()
+
+        self._index += 1
+
+        return result
+
+    next = __next__  # For Python 2 support
 
 
 def _get_bad_values(prims):
@@ -270,3 +328,9 @@ def _make_point_instancer(stage, path, issues=tuple(), suggested_count=_BASE_COU
         scales.default = values
 
     return stage.GetPrimAtPath(path)
+
+
+def _yield_elements(container):
+    """Re-yield every element within `container`."""
+    for element in container:
+        yield element
