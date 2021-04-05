@@ -44,7 +44,10 @@ tests = {
         "requires": ["pydocstyle-3+<4"],
     },
     # TODO : Remove fixme, later
-    "pylint": {"command": "pylint --disable=fixme tests", "requires": ["pylint-1.9+<2"]},
+    "pylint": {
+        "command": "pylint --disable=fixme tests",
+        "requires": ["pylint-1.9+<2"],
+    },
     "unittest": "python -m unittest discover",
 }
 
