@@ -23,3 +23,13 @@ bad. (Small, negative values are also considered bad).
     - Get .h included as a separate folder (so it can be importable)
 
 - Make sure passing just a list / set / container / etc to the function is valid
+
+Possibly useful links
+
+https://stackoverflow.com/a/15940413/3626104
+https://www.boost.org/doc/libs/1_53_0/libs/python/doc/v2/faq.html#custom_string
+https://stackoverflow.com/questions/3761391/boostpython-python-list-to-stdvector
+
+- Do the miscellaneous TODO notes
+- Add C++ linters
+- Make a 1.0.0 release

@@ -14,13 +14,36 @@ private_build_requires = ["cmake-3"]
 # TODO : Can this be private / build requires?
 requires = ["USD-20.02.4+<21", "~python-2.7"]
 
-# TODO : Add more tests
 tests = {
+    "black_diff": {
+        "command": "rez-env black-19 -- black --diff --check tests",
+    },
+    "black": {
+        "command": "rez-env black-19 -- black tests",
+        "run_on": "explicit",
+    },
     "build_documentation": {
         "command": "doxygen",
         # "requires": ["doxygen"],  # TODO : Add a Rez package for this, later
         "run_on": "explicit",
     },
+    "isort": {
+        "command": "isort --recursive tests",
+        "requires": ["isort-4.3+<5"],
+        "run_on": "explicit",
+    },
+    "isort_check": {
+        "command": "isort --check-only --diff --recursive tests",
+        "requires": ["isort-4.3+<5"],
+    },
+    "pydocstyle": {
+        # Need to disable D202 for now, until a new pydocstyle version is released
+        # Reference: https://github.com/psf/black/issues/1159
+        #
+        "command": "pydocstyle --ignore=D213,D202,D203,D406,D407 tests/*",
+        "requires": ["pydocstyle-3+<4"],
+    },
+    "pylint": {"command": "pylint tests", "requires": ["pylint-1.9+<2"]},
     "unittest": "python -m unittest discover",
 }
 
