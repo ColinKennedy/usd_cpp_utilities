@@ -35,7 +35,11 @@ class Timer(object):
             raise RuntimeError("End is not set. Cannot continue.")
 
         if self._end < self._start:
-            raise RuntimeError('End "{self._end}" is less than "{self._start}". This should never happen.'.format(self=self))
+            raise RuntimeError(
+                'End "{self._end}" is less than "{self._start}". This should never happen.'.format(
+                    self=self
+                )
+            )
 
         return self._end - self._start
 

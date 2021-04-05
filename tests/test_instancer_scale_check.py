@@ -52,8 +52,7 @@ class Performance(unittest.TestCase):
 
         # The C++ implementation should be at least 250x faster than Python's
         self.assertLess(
-            cpp_timer.get_recorded_delta() * 250,
-            python_timer.get_recorded_delta(),
+            cpp_timer.get_recorded_delta() * 250, python_timer.get_recorded_delta(),
         )
 
 
@@ -77,7 +76,9 @@ class Run(unittest.TestCase):
         bad_indices = sorted([index for index, _ in bad_values])
         good_values = [(12, 30), (1020, 30), (3012, 100)]
 
-        instancer = _make_point_instancer(stage, "/foo", issues=bad_values + good_values)
+        instancer = _make_point_instancer(
+            stage, "/foo", issues=bad_values + good_values
+        )
 
         self.assertEqual(
             [(instancer, bad_indices)],
@@ -229,6 +230,7 @@ def _get_bad_values(prims):
             found indices.
 
     """
+
     def _is_too_low(value):
         return abs(value) < _BOUND_VALUE
 
