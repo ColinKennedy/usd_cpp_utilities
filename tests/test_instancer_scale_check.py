@@ -14,12 +14,15 @@ from usd_utilities import scale_check
 from . import common
 
 
+_BASE_COUNT = 10000
+_BOUND_VALUE = float(os.getenv("USD_CPP_UTILITIES_SCALE_UPPER_BOUND", 0.0001))
 _CURRENT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 _SCALAR = 40
-_BASE_COUNT = 10000
 
 
 class Performance(unittest.TestCase):
+    """Make sure the C++ implementation works quickly on large sets of data."""
+
     def test_cpp_is_faster(self):
         """Make sure the C++ implementation is faster than an equivalent Python function."""
         data_path = os.path.join(_CURRENT_DIRECTORY, "big_instancer_data.usdc")
@@ -52,32 +55,6 @@ class Performance(unittest.TestCase):
             cpp_timer.get_recorded_delta() * 250,
             python_timer.get_recorded_delta(),
         )
-
-
-def _get_bad_values(prims):
-    def _is_too_low(value):
-        # TODO : Make this an environment variable
-        return abs(value) < 0.0001
-
-    bads = []
-
-    for prim in prims:
-        instancer = UsdGeom.PointInstancer(prim)
-
-        if not instancer:
-            continue
-
-        attribute = instancer.GetScalesAttr()
-        indices = []
-
-        for index, value in enumerate(attribute.Get()):
-            if _is_too_low(value[0]) or _is_too_low(value[1]) or _is_too_low(value[2]):
-                indices.append(index)
-
-        if indices:
-            bads.append((instancer.GetPrim(), indices))
-
-    return bads
 
 
 class Run(unittest.TestCase):
@@ -161,6 +138,46 @@ class Run(unittest.TestCase):
             [(instancer, indices)],
             scale_check.get_bad_scale_values(stage.TraverseAll()),
         )
+
+
+def _get_bad_values(prims):
+    """Find all scale values which are too small.
+
+    This function is a Python-equivalent of the C++
+    :func:`usd_utilities.scale_check.get_bad_scale_values` function.
+
+    Args:
+        prims (iter[:class:`pxr.Usd.Prim`]):
+            Each Prim to consider. Non Point Instancers will be ignored.
+
+    Returns:
+        set[tuple[:class:`pxr.Usd.Prim`, list[int]]]:
+            Each PointInstancer Prim which has bad scale values and the
+            found indices.
+
+    """
+    def _is_too_low(value):
+        return abs(value) < _BOUND_VALUE
+
+    bads = []
+
+    for prim in prims:
+        instancer = UsdGeom.PointInstancer(prim)
+
+        if not instancer:
+            continue
+
+        attribute = instancer.GetScalesAttr()
+        indices = []
+
+        for index, value in enumerate(attribute.Get()):
+            if _is_too_low(value[0]) or _is_too_low(value[1]) or _is_too_low(value[2]):
+                indices.append(index)
+
+        if indices:
+            bads.append((instancer.GetPrim(), indices))
+
+    return bads
 
 
 def _get_scale():
