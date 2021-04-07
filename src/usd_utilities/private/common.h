@@ -6,10 +6,17 @@
  *
  */
 
+#include <utility>
 #include <vector>
 
+#include <pxr/usd/usd/prim.h>
 #include <pxr/usd/usd/primRange.h>
 #include <pxr/usd/usdGeom/pointInstancer.h>
+
+
+using Indices = std::vector<int>;
+using InstancerPair = std::pair<pxr::UsdPrim, Indices>;
+using InstancerPairs = std::vector<InstancerPair>;
 
 
 /** \brief Find all PointInstancers in a range of possible Prims.
@@ -18,7 +25,7 @@
  *
  * \return All found PointInstancer Prims, if any.
  */
-std::vector<pxr::UsdGeomPointInstancer> _get_instancers(pxr::UsdPrimRange range);
+std::vector<pxr::UsdGeomPointInstancer> get_instancers(pxr::UsdPrimRange range);
 
 
 /** \brief Find the maximum value which "bad" scale component values may be.
@@ -34,4 +41,4 @@ std::vector<pxr::UsdGeomPointInstancer> _get_instancers(pxr::UsdPrimRange range)
  *
  * \return The found value.
  */
-float _get_upper_bound();
+float get_upper_bound();

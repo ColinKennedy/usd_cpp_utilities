@@ -7,7 +7,7 @@
 #include "common.h"
 
 
-std::vector<pxr::UsdGeomPointInstancer> _get_instancers(pxr::UsdPrimRange range)
+std::vector<pxr::UsdGeomPointInstancer> get_instancers(pxr::UsdPrimRange range)
 {
     std::vector<pxr::UsdGeomPointInstancer> output;
 
@@ -23,7 +23,7 @@ std::vector<pxr::UsdGeomPointInstancer> _get_instancers(pxr::UsdPrimRange range)
 }
 
 
-float _get_upper_bound()
+float get_upper_bound()
 {
     if (const char *value = std::getenv("USD_CPP_UTILITIES_SCALE_UPPER_BOUND"))
     {

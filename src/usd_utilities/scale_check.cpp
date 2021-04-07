@@ -1,3 +1,4 @@
+#include <cmath>
 #include <utility>
 #include <vector>
 
@@ -8,26 +9,26 @@
 #include <pxr/usd/usdGeom/pointInstancer.h>
 
 #include "scale_check.h"
-#include "common.h"
+#include "private/common.h"
 
 
-static auto _UPPER_BOUND = _get_upper_bound();
+static auto UPPER_BOUND = get_upper_bound();
 
-inline bool _is_too_low(float value)
+inline static bool is_too_low(float value)
 {
-    return std::abs(value) < _UPPER_BOUND;
+    return std::abs(value) < UPPER_BOUND;
 }
 
 
 namespace usd_utilities
 {
-    _InstancerPairs get_bad_scale_values(pxr::UsdPrimRange const &range)
+    InstancerPairs get_bad_scale_values(pxr::UsdPrimRange const &range)
     {
-        _InstancerPairs output;
+        InstancerPairs output;
 
-        for (auto const &instancer : _get_instancers(range))
+        for (auto const &instancer : get_instancers(range))
         {
-            _Indices indices;
+            Indices indices;
 
             auto attribute = instancer.GetScalesAttr();
             pxr::VtVec3fArray values;
@@ -38,9 +39,9 @@ namespace usd_utilities
                 auto value = values[index];
 
                 if (
-                    _is_too_low(value[0])
-                    || _is_too_low(value[1])
-                    || _is_too_low(value[2])
+                    is_too_low(value[0])
+                    || is_too_low(value[1])
+                    || is_too_low(value[2])
                 )
                 {
                     indices.push_back(index);

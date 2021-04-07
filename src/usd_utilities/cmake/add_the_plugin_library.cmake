@@ -6,7 +6,7 @@
 #
 add_library(${PLUGIN_NAME}
     SHARED
-        common.cpp
+        private/common.cpp
         scale_check.cpp
 )
 
