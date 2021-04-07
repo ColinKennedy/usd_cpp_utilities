@@ -21,7 +21,7 @@ inline bool _is_too_low(float value)
 
 namespace usd_utilities
 {
-    _InstancerPairs get_bad_scale_values(pxr::UsdPrimRange range)
+    _InstancerPairs get_bad_scale_values(pxr::UsdPrimRange const &range)
     {
         _InstancerPairs output;
 

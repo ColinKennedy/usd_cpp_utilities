@@ -38,5 +38,5 @@ namespace usd_utilities
      * \return Every Prim which is a PointInstancer with at least one bad scale element.
      *
      */
-    _InstancerPairs get_bad_scale_values(pxr::UsdPrimRange range);
+    _InstancerPairs get_bad_scale_values(pxr::UsdPrimRange const &range);
 }
