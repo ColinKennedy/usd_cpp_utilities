@@ -3,7 +3,7 @@
 
 name = "usd_cpp_utilities"
 
-version = "1.0.0"
+version = "0.1.0"
 
 description = "Miscellaneous, optimized functions for working with USD"
 
