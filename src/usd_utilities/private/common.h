@@ -15,7 +15,7 @@
 
 
 using Indices = std::vector<int>;
-using InstancerPair = std::pair<pxr::UsdPrim, Indices>;
+using InstancerPair = std::pair<pxr::UsdAttribute, Indices>;
 using InstancerPairs = std::vector<InstancerPair>;
 
 

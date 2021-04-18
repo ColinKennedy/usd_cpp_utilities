@@ -28,6 +28,8 @@ namespace usd_utilities
      * USD_CPP_UTILITIES_SCALE_UPPER_BOUND variable, it is read as a float
      * and used. Otherwise, 0.0001 is the fallback value.
      *
+     * \param range: The Prims to check for PointInstancers and invalid scale indices.
+     *
      * \return Every Prim which is a PointInstancer with at least one bad scale element.
      *
      */

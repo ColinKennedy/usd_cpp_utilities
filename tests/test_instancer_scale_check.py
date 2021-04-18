@@ -224,9 +224,8 @@ def _get_bad_values(prims):
             Each Prim to consider. Non Point Instancers will be ignored.
 
     Returns:
-        set[tuple[:class:`pxr.Usd.Prim`, list[int]]]:
-            Each PointInstancer Prim which has bad scale values and the
-            found indices.
+        set[tuple[:class:`pxr.Usd.Attribute`, list[int]]]:
+            Each Attribute which has bad scale values and the found indices.
 
     """
 
@@ -249,7 +248,7 @@ def _get_bad_values(prims):
                 indices.append(index)
 
         if indices:
-            bads.append((instancer.GetPrim(), indices))
+            bads.append((instancer.GetScalesAttr(), indices))
 
     return bads
 
@@ -301,7 +300,8 @@ def _make_point_instancer(stage, path, issues=tuple(), suggested_count=_BASE_COU
             minimum. Default: 10000.
 
     Returns:
-        :class:`pxr.Usd.Prim`: The generated PointInstancer Prim.
+        :class:`pxr.Usd.Attribute`:
+            The generated PointInstancer attribute to test for.
 
     """
     layer = stage.GetRootLayer()
@@ -329,7 +329,9 @@ def _make_point_instancer(stage, path, issues=tuple(), suggested_count=_BASE_COU
 
         scales.default = values
 
-    return stage.GetPrimAtPath(path)
+    prim = stage.GetPrimAtPath(path)
+
+    return UsdGeom.PointInstancer(prim).GetScalesAttr()
 
 
 def _yield_elements(container):

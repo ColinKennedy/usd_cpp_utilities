@@ -50,7 +50,7 @@ namespace usd_utilities
 
             if (!indices.empty())
             {
-                output.emplace_back(instancer.GetPrim(), indices);
+                output.emplace_back(attribute, indices);
             }
         }
 
