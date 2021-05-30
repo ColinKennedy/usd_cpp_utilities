@@ -1,20 +1,15 @@
 #include <vector>
 
 #include <boost/python.hpp>
-#include <pxr/usd/usd/prim.h>
 #include <common.h>
+#include <pxr/usd/usd/prim.h>
 #include <scale_check.h>
-
 
 using namespace boost::python;
 
-
-BOOST_PYTHON_MODULE(scale_check)
-{
-    def(
-        "get_bad_scale_values",
-        usd_utilities::get_bad_scale_values,
-        R"(Find zero-element index in an attribute.
+BOOST_PYTHON_MODULE(scale_check) {
+  def("get_bad_scale_values", usd_utilities::get_bad_scale_values,
+      R"(Find zero-element index in an attribute.
 
         Note:
             If the user's environment defines a
@@ -27,6 +22,5 @@ BOOST_PYTHON_MODULE(scale_check)
 
         Returns:
            list[int]: The found, bad indices, if any.
-        )"
-    );
+        )");
 }

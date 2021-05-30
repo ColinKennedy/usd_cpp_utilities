@@ -5,6 +5,7 @@
 set(PLUGIN_TARGETS_NAME UsdUtilitiesTargets)
 set(INSTALL_CONFIGURATION_DIRECTORY lib/cmake/UsdUtilities)
 
+# 1. Add individual export targets
 install(
     TARGETS scale_check
     EXPORT ${PLUGIN_TARGETS_NAME}
@@ -12,6 +13,14 @@ install(
     INCLUDES DESTINATION include
 )
 
+install(
+    TARGETS itermaker
+    EXPORT ${PLUGIN_TARGETS_NAME}
+    LIBRARY DESTINATION lib
+    INCLUDES DESTINATION include
+)
+
+# 2. Now export everything, under the usd_utilities:: namespace
 install(
     EXPORT ${PLUGIN_TARGETS_NAME}
     FILE ${PLUGIN_TARGETS_NAME}.cmake
