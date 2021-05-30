@@ -3,10 +3,7 @@
 #include <vector>
 
 #include <pxr/base/vt/types.h>
-#include <pxr/usd/usd/prim.h>
-#include <pxr/usd/usd/primRange.h>
-#include <pxr/usd/usd/stage.h>
-#include <pxr/usd/usdGeom/pointInstancer.h>
+#include <pxr/usd/usd/attribute.h>
 
 #include "private/common.h"
 #include "scale_check.h"
