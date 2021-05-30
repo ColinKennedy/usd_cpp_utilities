@@ -1,12 +1,12 @@
 # Add the Python bindings
-set(PLUGIN_PYTHON_NAME scale_check)
+set(PLUGIN_PYTHON_NAME scale_check_python)
 
 add_library(${PLUGIN_PYTHON_NAME}
     SHARED
         wrap_scale_check.cpp
 )
 
-# TODO : Can I just point ${PLUGIN_NAME} here, maybe?
+# TODO : Can I just point scale_check here, maybe?
 target_include_directories(${PLUGIN_PYTHON_NAME}
     PRIVATE
         ${PYTHON_INCLUDE_PATH}
@@ -26,16 +26,17 @@ set_target_properties(${PLUGIN_PYTHON_NAME}
 
 set(PYTHON_PACKAGE_NAME usd_utilities)
 
-# XXX : These lines "find" the Python package
-target_compile_definitions(${PLUGIN_PYTHON_NAME}
-    PRIVATE
-        MFB_PACKAGE_NAME=${PLUGIN_NAME}
-        MFB_ALT_PACKAGE_NAME=${PLUGIN_NAME}
-        MFB_PACKAGE_MODULE=${PYTHON_PACKAGE_NAME}.${MODULE_NAME}
-)
+# TODO : Check if these are actually needed
+# # XXX : These lines "find" the Python package
+# target_compile_definitions(${PLUGIN_PYTHON_NAME}
+#     PRIVATE
+#         MFB_PACKAGE_NAME=scale_check
+#         MFB_ALT_PACKAGE_NAME=scale_check
+#         MFB_PACKAGE_MODULE=${PYTHON_PACKAGE_NAME}.${MODULE_NAME}
+# )
 
 target_link_libraries(${PLUGIN_PYTHON_NAME}
-    ${PLUGIN_NAME}
+    scale_check
 )
 
 set(PYTHON_PACKAGE_RELATIVE_PATH lib/python/${PYTHON_PACKAGE_NAME})

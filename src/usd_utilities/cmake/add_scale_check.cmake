@@ -4,13 +4,13 @@
 # in this file.  This file focuses just on the basic definition of the
 # plugin.
 #
-add_library(${PLUGIN_NAME}
+add_library(scale_check
     SHARED
         private/common.cpp
         scale_check.cpp
 )
 
-target_include_directories(${PLUGIN_NAME}
+target_include_directories(scale_check
     PRIVATE
         private
         include
@@ -18,7 +18,7 @@ target_include_directories(${PLUGIN_NAME}
         ${PXR_INCLUDE_DIRS}
 )
 
-target_link_libraries(${PLUGIN_NAME}
+target_link_libraries(scale_check
     ${PXR_sdf_LIBRARY}
     ${PXR_usd_LIBRARY}
     ${PXR_usdGeom_LIBRARY}

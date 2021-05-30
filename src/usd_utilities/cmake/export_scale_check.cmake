@@ -6,7 +6,7 @@ set(PLUGIN_TARGETS_NAME UsdUtilitiesTargets)
 set(INSTALL_CONFIGURATION_DIRECTORY lib/cmake/UsdUtilities)
 
 install(
-    TARGETS ${PLUGIN_NAME}
+    TARGETS scale_check
     EXPORT ${PLUGIN_TARGETS_NAME}
     LIBRARY DESTINATION lib
     INCLUDES DESTINATION include
