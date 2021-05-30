@@ -13,3 +13,9 @@ target_link_libraries(itermaker
     ${PXR_sdf_LIBRARY}
     ${USD_BOOST_PYTHON}
 )
+
+# Copy the generated libraries (the .so files)
+install(
+    TARGETS itermaker
+    DESTINATION ${REZ_BUILD_INSTALL_PATH}
+)
