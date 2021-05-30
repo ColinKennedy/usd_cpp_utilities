@@ -1,3 +1,7 @@
+set(PYTHON_PACKAGE_NAME usd_utilities)
+set(PYTHON_PACKAGE_RELATIVE_PATH lib/python/${PYTHON_PACKAGE_NAME})
+set(INSTALL_PYTHON_PACKAGE ${PYTHON_PACKAGE_RELATIVE_PATH})
+
 function(make_python_binding target_name)
     add_library(${target_name}_python
         SHARED
@@ -17,17 +21,17 @@ function(make_python_binding target_name)
     )
 
     # On OSX "dylib" does not work to import python module
-    # TODO: windows support
     set_target_properties(${target_name}_python PROPERTIES SUFFIX ".so")
 
     set_target_properties(${target_name}_python
         PROPERTIES
             PREFIX ""
+            OUTPUT_NAME ${target_name}
     )
 
     install(
         TARGETS ${target_name}_python
-        DESTINATION ${INSTALL_PYTHON_PACKAGE}/${MODULE_NAME}
+        DESTINATION ${INSTALL_PYTHON_PACKAGE}
     )
 endfunction()
 
@@ -36,11 +40,6 @@ make_python_binding(scale_check)
 make_python_binding(itermaker)
 
 # 2. Copy all of the modules under a single Python namespace
-set(PYTHON_PACKAGE_NAME usd_utilities)
-set(PYTHON_PACKAGE_RELATIVE_PATH lib/python/${PYTHON_PACKAGE_NAME})
-set(INSTALL_PYTHON_PACKAGE ${PYTHON_PACKAGE_RELATIVE_PATH})
-
-
 install(
     FILES __packageinit__.py
     DESTINATION ${INSTALL_PYTHON_PACKAGE}

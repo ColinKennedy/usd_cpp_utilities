@@ -9,9 +9,3 @@ install(
     DESTINATION
         include
 )
-
-# Copy the generated libraries (the .so files)
-install(
-    TARGETS scale_check
-    DESTINATION ${REZ_BUILD_INSTALL_PATH}
-)

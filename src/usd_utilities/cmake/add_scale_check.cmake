@@ -25,3 +25,9 @@ target_link_libraries(scale_check
     ${PXR_vt_LIBRARY}
     ${USD_BOOST_PYTHON}
 )
+
+# Copy the generated libraries (the .so files)
+install(
+    TARGETS scale_check
+    DESTINATION ${REZ_BUILD_INSTALL_PATH}
+)
