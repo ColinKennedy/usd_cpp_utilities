@@ -8,8 +8,8 @@
  * use.
  */
 namespace usd_utilities {
-std::vector<pxr::SdfPrimSpecHandle>
-iter_prim_specs(pxr::SdfPrimSpecHandle const &prim_spec);
+std::vector<pxr::SdfPrimSpec>
+iter_prim_specs(pxr::SdfPrimSpec const &prim_spec);
 
-std::vector<pxr::SdfPrimSpecHandle> iter_prim_specs(pxr::SdfLayer const &layer);
+std::vector<pxr::SdfPrimSpec> iter_prim_specs(pxr::SdfLayer const &layer);
 } // namespace usd_utilities
