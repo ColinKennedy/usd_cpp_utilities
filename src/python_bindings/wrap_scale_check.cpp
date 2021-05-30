@@ -5,22 +5,16 @@
 #include <common.h>
 #include <scale_check.h>
 
-#include "boost_conversion_helper.h"
-#include "vector_converter.h"
-
 
 using namespace boost::python;
 
 
 BOOST_PYTHON_MODULE(scale_check)
 {
-    to_python_converter< std::vector<InstancerPair>, CppVectorToPythonList<InstancerPair> >();
-    py_pair<pxr::UsdAttribute, Indices>();
-
     def(
         "get_bad_scale_values",
         usd_utilities::get_bad_scale_values,
-        R"(Find every PointInstancer Prim with small scale elements.
+        R"(Find zero-element index in an attribute.
 
         Note:
             If the user's environment defines a
@@ -28,13 +22,11 @@ BOOST_PYTHON_MODULE(scale_check)
             a float and used. Otherwise, 0.0001 is the fallback value.
 
         Args:
-           range (:class:`pxr.Usd.PrimRange`):
-               The Prims to check for PointInstancers and invalid scale indices.
+           attribute (:class:`pxr.Usd.Attribute`):
+               The attribute to check for any index whose value is 0.
 
         Returns:
-           list[tuple[:class:`pxr.Usd.Attribute`, list[int]]]:
-               Each PointInstancer Attribute which has 1-or-more indices
-               with bad scale values.
+           list[int]: The found, bad indices, if any.
         )"
     );
 }

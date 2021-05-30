@@ -15,17 +15,6 @@
 
 
 using Indices = std::vector<int>;
-using InstancerPair = std::pair<pxr::UsdAttribute, Indices>;
-using InstancerPairs = std::vector<InstancerPair>;
-
-
-/** \brief Find all PointInstancers in a range of possible Prims.
- *
- * \param range The Prims to consider from 1-or-more stages.
- *
- * \return All found PointInstancer Prims, if any.
- */
-std::vector<pxr::UsdGeomPointInstancer> get_instancers(pxr::UsdPrimRange range);
 
 
 /** \brief Find the maximum value which "bad" scale component values may be.
