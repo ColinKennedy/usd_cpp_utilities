@@ -3,8 +3,8 @@ include(cmake/export_the_plugin.cmake)
 
 # Copy the header files so external packages can include + use them
 install(
-    FILES
-        scale_check.h
+    DIRECTORY
+        include
     DESTINATION
         include
 )

@@ -12,7 +12,7 @@
 
 #include <pxr/usd/usd/primRange.h>
 
-#include "private/common.h"
+#include "common.h"
 
 
 /**

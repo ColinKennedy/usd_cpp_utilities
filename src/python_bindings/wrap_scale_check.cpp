@@ -2,7 +2,7 @@
 
 #include <boost/python.hpp>
 #include <pxr/usd/usd/prim.h>
-#include <private/common.h>
+#include <common.h>
 #include <scale_check.h>
 
 #include "boost_conversion_helper.h"

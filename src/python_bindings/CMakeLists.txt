@@ -11,7 +11,8 @@ target_include_directories(${PLUGIN_PYTHON_NAME}
     PRIVATE
         ${PYTHON_INCLUDE_PATH}
         ${PXR_INCLUDE_DIRS}
-        ../usd_utilities
+        ../usd_utilities/include
+        ../usd_utilities/private
 )
 
 # On OSX "dylib" does not work to import python module

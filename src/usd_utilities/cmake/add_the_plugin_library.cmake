@@ -12,6 +12,8 @@ add_library(${PLUGIN_NAME}
 
 target_include_directories(${PLUGIN_NAME}
     PRIVATE
+        private
+        include
         ${PYTHON_INCLUDE_PATH}
         ${PXR_INCLUDE_DIRS}
 )

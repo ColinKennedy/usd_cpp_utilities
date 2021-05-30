@@ -284,10 +284,7 @@ def _make_value(value):
 
 
 def _make_point_instancer(  # pylint: disable=too-many-locals,bad-continuation
-    stage,
-    path,
-    issues=tuple(),
-    suggested_count=_BASE_COUNT,
+    stage, path, issues=tuple(), suggested_count=_BASE_COUNT,
 ):
     """Create a PointInstancer for testing.
 
