@@ -44,7 +44,7 @@ class Performance(unittest.TestCase):
             python_results = _get_bad_values(stage.TraverseAll())
 
         with common.Timer() as cpp_timer:
-            cpp_results = scale_check.get_bad_scale_values(stage.TraverseAll())
+            cpp_results = _get_cpp_values(stage.TraverseAll())
 
         self.assertEqual(python_results, cpp_results)
 
@@ -60,7 +60,7 @@ class Run(unittest.TestCase):
     def test_empty(self):
         """Make sure an empty USD stage / range can be processed."""
         stage = Usd.Stage.CreateInMemory()
-        self.assertFalse(scale_check.get_bad_scale_values(stage.TraverseAll()))
+        self.assertFalse(_get_cpp_values(stage.TraverseAll()))
 
     def test_mixed(self):
         """Report only the bad values in a mixture of explicit good / bad values."""
@@ -74,13 +74,12 @@ class Run(unittest.TestCase):
         bad_indices = sorted([index for index, _ in bad_values])
         good_values = [(12, 30), (1020, 30), (3012, 100)]
 
-        instancer = _make_point_instancer(
+        attribute = _make_point_instancer(
             stage, "/foo", issues=bad_values + good_values
         )
 
         self.assertEqual(
-            [(instancer, bad_indices)],
-            scale_check.get_bad_scale_values(stage.TraverseAll()),
+            [(attribute, bad_indices)], _get_cpp_values(stage.TraverseAll()),
         )
 
     def test_multiple(self):
@@ -88,18 +87,18 @@ class Run(unittest.TestCase):
         stage = Usd.Stage.CreateInMemory()
         issues_1 = [(5, 0.0000000000001)]
         indices_1 = [index for index, _ in issues_1]
-        instancer_1 = _make_point_instancer(stage, "/foo_1", issues=issues_1)
+        attribute_1 = _make_point_instancer(stage, "/foo_1", issues=issues_1)
         issues_2 = [
             (5, 0.0000000000001),
             (12, -0.000001),
             (13, -0.000001),
         ]
         indices_2 = [index for index, _ in issues_2]
-        instancer_2 = _make_point_instancer(stage, "/foo_2", issues=issues_2)
+        attribute_2 = _make_point_instancer(stage, "/foo_2", issues=issues_2)
 
         self.assertEqual(
-            [(instancer_1, indices_1), (instancer_2, indices_2)],
-            scale_check.get_bad_scale_values(stage.TraverseAll()),
+            [(attribute_1, indices_1), (attribute_2, indices_2)],
+            _get_cpp_values(stage.TraverseAll()),
         )
 
     def test_negative(self):
@@ -107,11 +106,10 @@ class Run(unittest.TestCase):
         stage = Usd.Stage.CreateInMemory()
         issues = [(5, -0.0000000000001)]
         indices = [index for index, _ in issues]
-        instancer = _make_point_instancer(stage, "/foo", issues=issues)
+        attribute = _make_point_instancer(stage, "/foo", issues=issues)
 
         self.assertEqual(
-            [(instancer, indices)],
-            scale_check.get_bad_scale_values(stage.TraverseAll()),
+            [(attribute, indices)], _get_cpp_values(stage.TraverseAll()),
         )
 
     def test_single(self):
@@ -119,98 +117,22 @@ class Run(unittest.TestCase):
         stage = Usd.Stage.CreateInMemory()
         issues = [(5, 0.0000000000001)]
         indices = [index for index, _ in issues]
-        instancer = _make_point_instancer(stage, "/foo", issues=issues)
+        attribute = _make_point_instancer(stage, "/foo", issues=issues)
 
         self.assertEqual(
-            [(instancer, indices)],
-            scale_check.get_bad_scale_values(stage.TraverseAll()),
+            [(attribute, indices)], _get_cpp_values(stage.TraverseAll()),
         )
-
-    # TODO : Add support for these, later
-    # def test_types_built_in(self):
-    #     """Allow built-in Python containers."""
-    #     stage = Usd.Stage.CreateInMemory()
-    #     issues = [(5, 0.0000000000001)]
-    #     indices = [index for index, _ in issues]
-    #     instancer = _make_point_instancer(stage, "/foo", issues=issues)
-    #
-    #     for type_ in [frozenset, list, set, tuple]:
-    #         self.assertEqual(
-    #             [(instancer, indices)],
-    #             scale_check.get_bad_scale_values(type_(stage.TraverseAll())),
-    #             msg='Type "{type_}" failed to run.'.format(type_=type_),
-    #         )
-    #
-    # def test_types_custom(self):
-    #     """Allow a Python class, as long as it is iterable."""
-    #     stage = Usd.Stage.CreateInMemory()
-    #     issues = [(5, 0.0000000000001)]
-    #     indices = [index for index, _ in issues]
-    #     instancer = _make_point_instancer(stage, "/foo", issues=issues)
-    #
-    #     self.assertEqual(
-    #         [(instancer, indices)],
-    #         scale_check.get_bad_scale_values(_Iterator(stage.TraverseAll())),
-    #     )
-    #
-    #     self.assertEqual(
-    #         [(instancer, indices)],
-    #         scale_check.get_bad_scale_values(_yield_elements(stage.TraverseAll())),
-    #     )
 
     def test_zero(self):
         """Make sure 0 values are caught."""
         stage = Usd.Stage.CreateInMemory()
         issues = [(5, 0)]
         indices = [index for index, _ in issues]
-        instancer = _make_point_instancer(stage, "/foo", issues=issues)
+        attribute = _make_point_instancer(stage, "/foo", issues=issues)
 
         self.assertEqual(
-            [(instancer, indices)],
-            scale_check.get_bad_scale_values(stage.TraverseAll()),
+            [(attribute, indices)], _get_cpp_values(stage.TraverseAll()),
         )
-
-
-# TODO : Make sure custom iterable objects work, too.
-class _Iterator(object):
-    """A basic iterable Python class, for testing purposes."""
-
-    def __init__(self, values):
-        """Store some iterable container for querying, later.
-
-        Args:
-            values (container[:class:`pxr.Usd.Prims`]): The Prims to iterate over.
-
-        """
-        super(_Iterator, self).__init__()
-
-        self._index = 0
-        self._values = values
-
-    def __iter__(self):
-        """:class:`_Iterator`: The current instance."""
-        return self
-
-    def __next__(self):
-        """Get the Prim in the next index.
-
-        Raises:
-            StopIteration: If this instance runs out of objects to get.
-
-        Returns:
-            :class:`pxr.Usd.Prim`: The Prim.
-
-        """
-        try:
-            result = self._values[self._index]
-        except IndexError:
-            raise StopIteration()
-
-        self._index += 1
-
-        return result
-
-    next = __next__  # For Python 2 support
 
 
 def _get_bad_values(prims):
@@ -251,6 +173,24 @@ def _get_bad_values(prims):
             bads.append((instancer.GetScalesAttr(), indices))
 
     return bads
+
+
+def _get_cpp_values(prims):
+    output = []
+
+    for prim in prims:
+        instancer = UsdGeom.PointInstancer(prim)
+
+        if not instancer:
+            continue
+
+        attribute = instancer.GetScalesAttr()
+        indices = scale_check.get_bad_scale_values(attribute)
+
+        if indices:
+            output.append((attribute, indices))
+
+    return output
 
 
 def _get_scale():

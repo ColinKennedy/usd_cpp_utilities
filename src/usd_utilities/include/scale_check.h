@@ -21,17 +21,17 @@
  */
 namespace usd_utilities
 {
-    /** \brief Find every PointInstancer Prim with small scale elements.
+    /** \brief Find index in an attribute with small scale elements.
      *
      * \note
      * If the user's environment defines a
      * USD_CPP_UTILITIES_SCALE_UPPER_BOUND variable, it is read as a float
      * and used. Otherwise, 0.0001 is the fallback value.
      *
-     * \param range: The Prims to check for PointInstancers and invalid scale indices.
+     * \param attribute: The USD object to check for zeroed indices.
      *
-     * \return Every Prim which is a PointInstancer with at least one bad scale element.
+     * \return Every index in the Attribute with at least one bad scale element.
      *
      */
-    InstancerPairs get_bad_scale_values(pxr::UsdPrimRange const &range);
+    Indices get_bad_scale_values(pxr::UsdAttribute const &attribute);
 }
