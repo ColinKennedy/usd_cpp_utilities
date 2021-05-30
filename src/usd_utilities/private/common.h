@@ -13,9 +13,7 @@
 #include <pxr/usd/usd/primRange.h>
 #include <pxr/usd/usdGeom/pointInstancer.h>
 
-
 using Indices = std::vector<int>;
-
 
 /** \brief Find the maximum value which "bad" scale component values may be.
  *
