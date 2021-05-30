@@ -16,9 +16,9 @@ class IterPrimSpec(unittest.TestCase):
         """Return only the pseudo-root / root Prim when the Layer is empty."""
         layer = Sdf.Layer.CreateAnonymous()
 
-        self.assertEqual([layer.psuedoRoot], list(itermaker.iter_prim_specs(layer)))
+        self.assertEqual([layer.pseudoRoot], list(itermaker.iter_prim_specs(layer)))
         self.assertEqual(
-            [layer.psuedoRoot], list(itermaker.iter_prim_specs(layer.pseudoRoot))
+            [layer.pseudoRoot], list(itermaker.iter_prim_specs(layer.pseudoRoot))
         )
 
     def test_single(self):
