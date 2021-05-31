@@ -3,6 +3,8 @@
 
 """Make sure :mod:`usd_utilities.itermaker` works as expected."""
 
+from __future__ import print_function
+
 import contextlib
 import time
 import unittest
@@ -53,7 +55,8 @@ class IterPrimSpecs(unittest.TestCase):
         with _time_it() as python:
             list(_iter_from_layer(layer))
 
-        self.assertTrue(cpp.get_delta() * 10 < python.get_delta())
+        print("Time Difference:", cpp.get_delta(), python.get_delta())
+        self.assertTrue(cpp.get_delta() * 5 < python.get_delta())
 
     def test_variants(self):
         """Get all Layer contents recursively, including variant content."""
