@@ -11,6 +11,7 @@ target_include_directories(itermaker
 
 target_link_libraries(itermaker
     ${PXR_sdf_LIBRARY}
+    ${PXR_tf_LIBRARY}
     ${USD_BOOST_PYTHON}
 )
 

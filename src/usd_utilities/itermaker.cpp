@@ -1,3 +1,5 @@
+#include <iterator> // std::begin / std::end
+#include <pxr/base/tf/iterator.h>
 #include <pxr/usd/sdf/layer.h>
 #include <pxr/usd/sdf/primSpec.h>
 #include <pxr/usd/sdf/proxyTypes.h>
@@ -15,16 +17,16 @@ iter_prim_specs(pxr::SdfPrimSpecHandle const &root) {
   output.push_back(root);
 
   for (auto const &prim_spec : children) {
-    for (auto const &variant_set : prim_spec->GetVariantSets()) {
-      auto variants = variant_set.second;
-      output.reserve(variants.size());
+    auto const variant_set_map = prim_spec->GetVariantSets();
+    output.reserve(variant_set_map.size());
 
-      for (auto const &data : variants) {
-        auto const variant_spec = data.second;
+    TF_FOR_ALL(iterator, variant_set_map) {
+      auto const variant_set_spec = iterator->second;
 
-        for (auto const &inner : iter_prim_specs(variant_spec->GetPrimSpec())) {
-          output.push_back(inner);
-        }
+      for (auto const variant_spec : variant_set_spec->GetVariants()) {
+        auto more_children = iter_prim_specs(variant_spec->GetPrimSpec());
+        output.insert(std::end(output), std::begin(more_children),
+                      std::end(more_children));
       }
     }
 
