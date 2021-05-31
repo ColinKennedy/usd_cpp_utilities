@@ -4,8 +4,8 @@
 """Make sure :mod:`usd_utilities.itermaker` works as expected."""
 
 import contextlib
-import unittest
 import time
+import unittest
 
 from pxr import Sdf
 from usd_utilities import itermaker
@@ -39,12 +39,7 @@ class IterPrimSpecs(unittest.TestCase):
         prim_spec_2 = Sdf.CreatePrimInLayer(layer, "/root/thing")
         prim_spec_3 = Sdf.CreatePrimInLayer(layer, "/root/last")
         self.assertEqual(
-            [
-                layer.pseudoRoot,
-                prim_spec_1,
-                prim_spec_2,
-                prim_spec_3,
-            ],
+            [layer.pseudoRoot, prim_spec_1, prim_spec_2, prim_spec_3,],
             list(itermaker.iter_prim_specs(layer.pseudoRoot)),
         )
 
@@ -178,7 +173,9 @@ def _get_big_layer():
             Sdf.CreatePrimInLayer(layer, parent)
 
             for inner in range(20):
-                Sdf.CreatePrimInLayer(layer, parent + "/child_{inner}".format(inner=inner))
+                Sdf.CreatePrimInLayer(
+                    layer, parent + "/child_{inner}".format(inner=inner)
+                )
 
     return layer
 
@@ -186,7 +183,10 @@ def _get_big_layer():
 @contextlib.contextmanager
 def _time_it():
     """Time the execution of the code which runs in this context."""
-    class Timer(object):
+
+    class Timer(object):  # pylint: disable=too-few-public-methods
+        """A basic class to store the time taken during some operation."""
+
         def __init__(self, start):
             super(Timer, self).__init__()
 
@@ -194,6 +194,7 @@ def _time_it():
             self.end = None
 
         def get_delta(self):
+            """float: Get the time taken between the start and end."""
             if self.end is None:
                 raise RuntimeError("No delta can be found.")
 

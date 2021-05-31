@@ -25,6 +25,7 @@ iter_prim_specs(pxr::SdfPrimSpecHandle const &root) {
 
       for (auto const variant_spec : variant_set_spec->GetVariants()) {
         auto more_children = iter_prim_specs(variant_spec->GetPrimSpec());
+        output.reserve(more_children.size());
         output.insert(std::end(output), std::begin(more_children),
                       std::end(more_children));
       }
