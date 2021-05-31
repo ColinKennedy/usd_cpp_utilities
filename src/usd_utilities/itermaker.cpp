@@ -31,9 +31,10 @@ iter_prim_specs(pxr::SdfPrimSpecHandle const &root) {
       }
     }
 
-    for (auto const &child : iter_prim_specs(prim_spec)) {
-      output.push_back(child);
-    }
+    auto more_children = iter_prim_specs(prim_spec);
+    output.reserve(more_children.size());
+    output.insert(std::end(output), std::begin(more_children),
+                  std::end(more_children));
   }
 
   return output;
