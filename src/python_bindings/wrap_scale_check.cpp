@@ -1,8 +1,4 @@
-#include <vector>
-
 #include <boost/python.hpp>
-#include <common.h>
-#include <pxr/usd/usd/prim.h>
 #include <scale_check.h>
 
 using namespace boost::python;

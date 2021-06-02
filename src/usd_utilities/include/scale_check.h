@@ -10,7 +10,7 @@
  *
  */
 
-#include <pxr/usd/usd/primRange.h>
+#include <pxr/usd/usd/attribute.h>
 
 #include "common.h"
 

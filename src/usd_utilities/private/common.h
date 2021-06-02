@@ -6,12 +6,7 @@
  *
  */
 
-#include <utility>
 #include <vector>
-
-#include <pxr/usd/usd/prim.h>
-#include <pxr/usd/usd/primRange.h>
-#include <pxr/usd/usdGeom/pointInstancer.h>
 
 using Indices = std::vector<int>;
 
